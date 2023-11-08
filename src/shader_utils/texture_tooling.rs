@@ -25,14 +25,12 @@ impl SetNewTexture for YourShader {
         idx: usize,
         user_added_textures: &TexHandleQueue,
     ) {
-        let Some(new_tex) = user_added_textures.0.get(&idx) else {
-            let num_texs = user_added_textures.0.len();
-            error!("No handle, it could still be loading your texture into the ECS!\nThere are currently {}, textures available on keys 0..{}",
-                num_texs, num_texs.min(9));
-
-            return;
-        };
-        shader_mat.img = new_tex.clone(); // Cloning handles is fine.
+        if !user_added_textures.is_empty() {
+            let Some(new_tex) = user_added_textures.0.get(&idx) else {
+                return;
+            };
+            shader_mat.img = new_tex.clone(); // Cloning handles is fine.
+        }
     }
 }
 
@@ -78,18 +76,20 @@ impl SetNewTexture for YourShader2D {
         idx: usize,
         user_added_textures: &TexHandleQueue,
     ) {
-        let Some(new_tex) = user_added_textures.0.get(&idx) else {
-            error!("Expected a texture at idx: {}, but none was found.", idx);
-            let num_texs = user_added_textures.0.len();
-            error!("No handle, it could still be loading your texture into the ECS!\nThere are currently {}, textures available on keys 0..{}",
+        if !user_added_textures.is_empty() {
+            let Some(new_tex) = user_added_textures.0.get(&idx) else {
+                error!("Expected a texture at idx: {}, but none was found.", idx);
+                let num_texs = user_added_textures.0.len();
+                error!("No handle, it could still be loading your texture into the ECS!\nThere are currently {}, textures available on keys 0..{}",
                 num_texs, num_texs.min(9));
 
-            return;
-        };
-        shader_mat.img = new_tex.clone(); // Cloning handles is fine.
+                return;
+            };
+            shader_mat.img = new_tex.clone(); // Cloning handles is fine.
 
-        #[cfg(debug_assertions)]
-        debug!("Should be set to {}", idx);
+            #[cfg(debug_assertions)]
+            debug!("Should be set to {}", idx);
+        }
     }
 }
 
@@ -100,7 +100,6 @@ pub fn swap_2d_tex_from_idx(
     user_textures: Res<TexHandleQueue>,
 ) {
     let Ok(handle) = shader_hndl.get_single() else {
-        error!("No handle, it could still be loading your texture into the ECS!");
         return;
     };
 

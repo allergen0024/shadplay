@@ -9,6 +9,13 @@ use crate::shader_utils::texture_tooling::SetNewTexture;
 #[derive(Default, Resource, Deref, DerefMut, Clone, Debug)]
 pub struct TexHandleQueue(pub HashMap<usize, Handle<Image>>);
 
+impl TexHandleQueue {
+    pub(crate) fn is_empty(&self) -> bool {
+        // Because we provide a default texture
+        self.0.len() > 1
+    }
+}
+
 /// Event: used to store user defined textures that we allow them to drop onto the window.
 /// TX: [`file_drag_and_drop_listener`] system.
 /// RX: [swap_tex_to_idx] system.

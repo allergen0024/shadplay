@@ -37,7 +37,9 @@ impl Plugin for ShadPlayPlugin {
             .add_systems(
                 Update,
                 (
-                    rotate.run_if(resource_equals::<Rotating>(Rotating(true))),
+                    rotate
+                        .run_if(resource_equals::<Rotating>(Rotating(true)))
+                        .run_if(in_state(AppState::ThreeD)),
                     switch_shape,
                     swap_3d_tex_from_idx.run_if(on_event::<KeyboardInput>()),
                     toggle_rotate,
