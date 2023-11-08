@@ -450,7 +450,6 @@ pub fn update_mouse_pos(
     shader_hndl: Query<&Handle<YourShader2D>>,
     window: Query<&Window, With<PrimaryWindow>>,
     mut shader_mat: ResMut<Assets<YourShader2D>>,
-    // mon_spec: Res<MonitorsSpecs>,
     shadplay_win_dims: Res<ShadplayWindowDims>,
 ) {
     let win = window.single();
