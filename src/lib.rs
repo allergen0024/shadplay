@@ -19,10 +19,10 @@ pub mod prelude {
         system::screenshot::screenshot_and_version_shader_on_spacebar,
         ui::colour_picker_plugin::ColourPickerPlugin,
         utils::{
-            self, cam_switch_system, cleanup_2d, cleanup_3d, init_shapes, quit, rotate, setup_2d,
-            setup_3d, size_quad, switch_level, switch_shape, toggle_rotate, toggle_transparency,
-            toggle_window_passthrough, update_mouse_pos, AppState, MonitorsSpecs, Rotating,
-            ShadplayWindowDims, ShapeOptions, TransparencySet,
+            self, cam_switch_system, cleanup_2d, cleanup_3d, init_shapes_3d, quit, rotate,
+            setup_2d, setup_3d, size_quad, switch_level, switch_shape, toggle_rotate,
+            toggle_transparency, toggle_window_passthrough, update_mouse_pos, AppState,
+            MonitorsSpecs, Rotating, ShadplayWindowDims, ShapeOptions, TransparencySet,
         },
     };
 }

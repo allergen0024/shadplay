@@ -43,7 +43,6 @@ pub fn swap_3d_tex_from_idx(
     user_textures: Res<TexHandleQueue>,
 ) {
     let Ok(handle) = shader_hndl.get_single() else {
-        error!("No handle, it could still be loading your texture into the ECS!");
         return;
     };
 

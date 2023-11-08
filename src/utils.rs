@@ -156,8 +156,6 @@ pub fn toggle_transparency(
     mut event: EventWriter<RequestRedraw>,
 ) {
     if input.just_pressed(KeyCode::O) {
-        // let mut window = windows.single_mut();
-        // window.transparent = !window.transparent; // Not supported after creation.
         if **transparency_set {
             *clear_colour = ClearColor(Color::BLACK);
         } else {
@@ -218,7 +216,7 @@ pub fn toggle_window_passthrough(
 }
 
 /// System: Startup, initialises the scene's geometry. 3d only.
-pub fn init_shapes(
+pub fn init_shapes_3d(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<YourShader>>,
     mut shape_options: ResMut<ShapeOptions>,
@@ -311,10 +309,19 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
 }
 
 /// System: Cleans up the 3d camera. Called on exit of [`AppState::ThreeD`]
-pub fn cleanup_3d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
-    for (ent, _q) in q.iter_mut() {
+pub fn cleanup_3d(
+    mut commands: Commands,
+    mut cameras: Query<(Entity, &mut Camera)>,
+    mut shapes: Query<Entity, With<Shape>>,
+) {
+    for (ent, _q) in cameras.iter_mut() {
         commands.entity(ent).despawn_recursive();
         trace!("Despawned 3D camera.")
+    }
+
+    for ent in shapes.iter_mut() {
+        commands.entity(ent).despawn_recursive();
+        trace!("Despawned 3D shape.")
     }
 }
 

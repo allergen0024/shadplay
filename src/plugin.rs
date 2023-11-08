@@ -27,12 +27,12 @@ impl Plugin for ShadPlayPlugin {
             .add_event::<DragNDropShader>()
             // 3D
             .add_systems(OnEnter(AppState::ThreeD), setup_3d)
+            .add_systems(OnEnter(AppState::ThreeD), init_shapes_3d)
             .add_systems(OnExit(AppState::ThreeD), cleanup_3d)
             // 2D
             .add_systems(OnEnter(AppState::TwoD), setup_2d)
             .add_systems(OnExit(AppState::TwoD), cleanup_2d)
             // Setups.
-            .add_systems(PreStartup, init_shapes)
             // 3d Cam Systems
             .add_systems(
                 Update,
